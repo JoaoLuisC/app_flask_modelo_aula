@@ -1,8 +1,7 @@
 from flask import Flask, jsonify, request
 import numpy as np
-import google.generativeai as generativeai
-from google import genai
-from google.genai import types
+import google.generativeai as genai
+from google.generativeai import types
 import pickle
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -15,11 +14,11 @@ CORS(app)  # Initialize CORS for the entire application
 model = 'models/gemini-embedding-exp-03-07'
 modeloEmbeddings = pickle.load(open('datasetEmbeddings.pkl','rb'))
 chave_secreta = os.getenv('API_KEY')
-generativeai.configure(api_key=chave_secreta)
+genai.configure(api_key=chave_secreta)
 print(chave_secreta)
 
 def gerarBuscarConsulta(consulta,dataset):
-    embedding_consulta = generativeai.embed_content(model=model,
+    embedding_consulta = genai.embed_content(model=model,
                                 content=consulta,
                                 task_type="retrieval_query",
                                 )
