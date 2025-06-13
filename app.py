@@ -29,8 +29,8 @@ def gerarBuscarConsulta(consulta,dataset):
     print(produtos_escalares[indice])
     return dataset.iloc[indice]['Conteúdo']
 
+
 def melhorarResposta(inputText):
-    client = genai.Client(api_key=chave_secreta)
     model = "gemini-1.5-flash"
     contents = [
         types.Content(
@@ -48,12 +48,13 @@ def melhorarResposta(inputText):
             types.Part.from_text(text="""Considere a consulta e resposta, reescreva as sentenças de resposta de uma forma alternativa, não apresente opções de reescrita"""),
         ],
     )
-    response = client.models.generate_content(
+    response = genai.models.generate_content(
         model=model,
         contents=contents,
         config=generate_content_config,
     )
-    return response.text;
+    return response.text
+
 
 @app.route("/")
 def home():
