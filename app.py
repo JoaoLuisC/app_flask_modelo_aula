@@ -32,28 +32,19 @@ def gerarBuscarConsulta(consulta,dataset):
 
 def melhorarResposta(inputText):
     model = "gemini-1.5-flash"
-    contents = [
-        types.Content(
-            role="user",
-            parts=[
-                types.Part.from_text(text=inputText),
-            ],
-        ),
-    ]
-    generate_content_config = types.GenerateContentConfig(
+    system_instruction = "Considere a consulta e resposta, reescreva as sentenças de resposta de uma forma alternativa, não apresente opções de reescrita"
+
+    response = genai.chat.completions.create(
+        model=model,
+        messages=[
+            {"author": "system", "content": system_instruction},
+            {"author": "user", "content": inputText},
+        ],
         temperature=1,
         top_k=32,
-        response_mime_type="text/plain",
-        system_instruction=[
-            types.Part.from_text(text="""Considere a consulta e resposta, reescreva as sentenças de resposta de uma forma alternativa, não apresente opções de reescrita"""),
-        ],
     )
-    response = genai.models.generate_content(
-        model=model,
-        contents=contents,
-        config=generate_content_config,
-    )
-    return response.text
+
+    return response.choices[0].message["content"]
 
 
 @app.route("/")
