@@ -5,8 +5,9 @@ from google.generativeai import types
 import pickle
 from flask_cors import CORS
 from dotenv import load_dotenv
-import os
-
+import os 
+ 
+ 
 load_dotenv()
 app = Flask(__name__)
 CORS(app)  # Initialize CORS for the entire application
