@@ -5,9 +5,10 @@ from google.generativeai import types
 import pickle
 from flask_cors import CORS
 from dotenv import load_dotenv
+load_dotenv()
 import os 
  
- 
+
 load_dotenv()
 app = Flask(__name__)
 CORS(app)  # Initialize CORS for the entire application
@@ -17,6 +18,8 @@ modeloEmbeddings = pickle.load(open('datasetEmbeddings.pkl','rb'))
 chave_secreta = os.getenv('API_KEY')
 genai.configure(api_key=chave_secreta)
 print(chave_secreta)
+print("Chave secreta carregada:", repr(chave_secreta))
+
 
 def gerarBuscarConsulta(consulta,dataset):
     embedding_consulta = genai.embed_content(model=model,
