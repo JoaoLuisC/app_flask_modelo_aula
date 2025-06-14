@@ -57,15 +57,18 @@ def home():
 
 @app.route("/api", methods=["POST"])
 def results():
-    # Verifique a chave de autorização
     auth_key = request.headers.get("Authorization")
     if auth_key != chave_secreta:
         return jsonify({"error": "Unauthorized"}), 401
+
     data = request.get_json(force=True)
+    if not data or "consulta" not in data:
+        return jsonify({"error": "Campo 'consulta' não fornecido"}), 400
+
     consulta = data["consulta"]
     resultado = gerarBuscarConsulta(consulta, modeloEmbeddings)
     prompt = f"Consulta: {consulta} Resposta: {resultado}"
     response = melhorarResposta(prompt)
-    return jsonify({"mensagem":  response})
+    return jsonify({"mensagem": response})
 
 
